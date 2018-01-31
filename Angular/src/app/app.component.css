@@ -1,0 +1,13 @@
+header {
+	text-align: center;
+	padding: 20px 0;
+	font-size: 30px;
+	border-bottom: 2px solid #eee;
+}
+
+footer {
+	text-align: center;
+	padding: 20px 0;
+	font-size: 15px;
+	border-top: 2px solid #eee;
+}

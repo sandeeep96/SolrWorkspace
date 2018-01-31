@@ -1,0 +1,104 @@
+.dropbtn {
+    background-color: #f3f3f3;
+    color: #666;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: relative;
+    background-color: #f9f9f9;
+    min-width: 13%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #ddd;
+}
+
+                  .center {
+                      margin: auto;
+                      width: 80%;
+                      min-height: 200px;
+                      /* border: 1px solid; */
+                      padding: 20px;
+                  }
+                  nav {
+                      padding: 20px 0px;
+                  }
+                  ul {
+                      list-style-type: none;
+                      margin: 0;
+                      padding: 0px;
+                      overflow: hidden;
+                      border: 1px solid #e7e7e7;
+                      background-color: #f3f3f3;
+                  }
+
+                  li {
+                      float: left;
+                  }
+
+                  li a {
+                      display: block;
+                      color: #666;
+                      text-align: center;
+                      padding: 14px 16px;
+                      text-decoration: none;
+                  }
+
+                  li a:hover:not(.active) {
+                      background-color: #ddd;
+                  }
+
+                  li a.active {
+                      color: white;
+                      background-color: #4CAF50;
+                  }
+
+                  .search-result{
+                    /* border-bottom: 1px solid gray;
+                    border-left: 1px solid gray;
+                    border-right: 1px solid gray;
+                    width:195px;
+                    height: 20px;
+                    padding: 15px;
+                    background-color: white; */
+                    cursor: pointer;
+                    color: black;
+                  }
+                  
+                  .search-result:hover {
+                    color: black;
+                    background-color: #ddd;
+                  }
+                  
+                  /* #search-box{
+                    width: 200px;
+                    height: 20px;
+                  } */

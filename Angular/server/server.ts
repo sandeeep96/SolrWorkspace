@@ -1,10 +1,7 @@
-// 
+//
 // Important instructions on how to run the file
-// 
+//
 // run "tsc server" and then run "node server"
-
-
-
 
 // Required Imports
 import * as express from 'express';
@@ -15,10 +12,10 @@ import * as cors from 'cors';
 import * as path from 'path';
 import * as util from 'util';
 
+// Set up express environment
 const app = express();
 dotenv.load({ path: '.env' });
 const port = (process.env.port || 3000);
-// app.set('host', '172.24.145.47');
 app.set('port', port);
 
 // Parsers
@@ -30,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Solr Setup
 const client = new solrnode({
-    host: '172.24.213.57',
+    host: '172.31.100.94',
     port: '8085',
     core: 'report',
     protocol: 'http'
@@ -39,62 +36,85 @@ const client = new solrnode({
 
 // Hold latest data and numRows
 let numRowsLatest, numRowsPrev;
-let latestData = {};
+let latestData = {}, completeData = {};
 
 // Solr query to get all records
 const solrGetAllQuery = client.query().q('*:*').start(0).rows(1000);
 
-// API to get all the data - localhost:3000/records
+/*
+ * API to get all the data - localhost:3000/records
+ *
+*/
 app.get('/records', (req, res) => {
     function solrData() {
         client.search(solrGetAllQuery, (err, result) => {
             if (err) {
                 console.log('Error in fetching data: ' + err.msg + ' Code: ' + err.code);
             } else {
-                numRowsPrev = parseInt(result.response.numFound);
-                console.log('All Data Rows: ' + numRowsPrev);
-                // const newResponse = result.response.docs.map((item) => {
-                //     item.id = parseInt(item.id);
-                // });
-                res.json(result.response.numFound);
-                // res.json(newResponse);
+                if (result !== undefined) {
+                    const numberOfRows = result.response.numFound;
+                    numRowsPrev = parseInt(numberOfRows, 10);
+                    console.log('All Data Rows: ' + numRowsPrev);
+                    completeData = result.response.docs.map((item) => {
+                        item.id = parseInt(item.id, 10);
+                        return item;
+                    });
+                    res.json(completeData);
+                } else {
+                    console.log('No All data..!!');
+                    res.json(null);
+                }
             }
         });
     }
-    // setInterval(solrData, 2000);
     solrData();
 });
 
+/*
+ * Query for getting the latest 100 rows of data.
+ *
+*/
 // const solrGetLatest10uery = client.query().q('modified_time:[2018-01-30T16:00:00Z TO *]').sort({'modified_time':'desc'}).start(0).rows(10);
 // const solrGetLatest10uery = client.query().q('*:*').sort({'modified_time':'desc'});
-const solrGetLatest10uery = client.query().q('*:*').sort({'id':'desc'}).rows(10);
+const solrGetLatest10uery = client.query().q('*:*').sort({ 'id': 'desc' }).rows(100);
 
-
-// API to get only latest top 10 data - localhost:3000/recordsTop10
-app.get('/recordsTop10', (req, res) => {
+/*
+ * API to get only latest top 100 data - localhost:3000/recordsTop10
+ *
+ * Compares the old number of rows with the new total number of rows fetched and if the latest fetch has more rows,
+ * it sends only the new additions to the frontend.
+ *
+*/
+app.get('/recordsTop100', (req, res) => {
     function solrData() {
         client.search(solrGetLatest10uery, (err, result) => {
             if (err) {
                 console.log('Error in fetching data: ' + err.msg + ' Code: ' + err.code);
             } else {
-                numRowsLatest = parseInt(result.response.numFound);
-                // numRowsLatest = 606;                
-                console.log('All Data Rows New: ' + numRowsLatest);
-                if(numRowsLatest === numRowsPrev) {
-                    latestData = result.response.docs.filter((item) => {
-                        item.id = parseInt(item.id);
-                        return item.id > numRowsPrev;
-                    });
-                    
-                    numRowsPrev = numRowsLatest;
-                    res.json(latestData);
+                if (result !== undefined) {
+                    numRowsLatest = parseInt(result.response.numFound, 10);
+                    console.log('All New Data Rows: ' + numRowsLatest);
+                    if (numRowsLatest > numRowsPrev) {
+                        // if (numRowsLatest === numRowsPrev) {
+                        latestData = result.response.docs.filter((item) => {
+                            item.id = parseInt(item.id, 10);
+                            // return item.id <= numRowsPrev;
+                            return item.id > numRowsPrev;
+                        });
+
+                        numRowsPrev = numRowsLatest;
+                        res.json(latestData);
+                    } else {
+                        res.json(null);
+                    }
+                } else {
+                    res.json(null);
                 }
-                // res.json(result.response);
             }
         });
     }
-    // setInterval(solrData, 3000);
     solrData();
+
 });
 
 // Start the server

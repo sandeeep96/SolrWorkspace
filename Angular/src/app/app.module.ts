@@ -27,9 +27,9 @@ const routes: Routes = [
    pathMatch: 'full' },
   { path:'home', 
     component:HomeComponentComponent,
-    // children:[
-    //   { path:'', redirectTo: 'table', pathMatch: 'full' },
-    //   { path:'table', component: TableComponentComponent},]
+    children:[
+      { path:'', redirectTo: 'table', pathMatch: 'full' },
+      { path:'table', component: TableComponentComponent},]
 },
   { path:'**', component:ErrorComponentComponent},
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable }        from 'rxjs/Observable';
-import { Subject }           from 'rxjs/Subject';
-import { Router }            from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { Router } from '@angular/router';
 
 
 // Observable class extensions
@@ -21,10 +21,10 @@ export class HomeComponentComponent implements OnInit {
 
   private searchTerms = new Subject<string>();
 
-    constructor(
-    ) { }
+  constructor(
+  ) { }
 
-    ngOnInit() {
+  ngOnInit() {
 
   }
 

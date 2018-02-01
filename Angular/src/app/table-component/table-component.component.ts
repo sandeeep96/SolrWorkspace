@@ -12,6 +12,7 @@ import {MyData} from '../mydata';
 export class TableComponentComponent implements OnInit {
 
   winners: MyData[] = [];
+  winners1: MyData[] = [];
   cols: any[];
   private timerSubscription: AnonymousSubscription;
   private postsSubscription: AnonymousSubscription;
@@ -47,7 +48,7 @@ export class TableComponentComponent implements OnInit {
         this.winners = data;
       });
     // console.log("ng init");
-    // this.refreshData();
+    this.refreshData();
         this.cols = [
           { field: 'id', header: 'Id' },
           { field: 'stock', header: 'Stock' },
@@ -76,9 +77,16 @@ export class TableComponentComponent implements OnInit {
   // }
 
   private refreshData(): void {
-    this.postsSubscription = this.winnerService.getWinners().subscribe(
+    this.postsSubscription = this.winnerService.getWinners1().subscribe(
       (data) => {
-        this.winners = data;
+        if(data==null){
+          console.log("no new data received")
+        }
+        else{
+          this.winners1 = data;
+          for(let i=0;i<this.winners1.length;i++)
+          this.winners.push(this.winners1[i])
+        }
         this.subscribeToData();
       },
       function (error) {
@@ -92,7 +100,7 @@ export class TableComponentComponent implements OnInit {
 
   private subscribeToData(): void {
 
-    this.timerSubscription = Observable.timer(10000)
+    this.timerSubscription = Observable.timer(1000)
       .subscribe(() => this.refreshData());
   }
 

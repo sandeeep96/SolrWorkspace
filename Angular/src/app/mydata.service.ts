@@ -13,10 +13,11 @@ export class MyDataService {
 
     // private endpointURL = 'http://localhost:3000/winners';  // URL to web api
     // private endpointURL = 'http://172.24.214.51:8085/solr/report/select?q=*:*&rows=1000&start=1  ';
-    private endpointURL = 'http://172.24.213.57:8085/solr/report/select?q=*:*&rows=1000&start=1 ';
+    // private endpointURL = 'http://172.24.213.57:8085/solr/report/select?q=*:*&rows=1000&start=1 ';
+    private endpointURL = 'http://172.24.145.47:3000/records ';
     // private endpointURL = 'http://172.31.100.48:8085/solr/report/select?q=*:*&rows=1000&start=1 ';
     
-    private updatedEndpointURL = 'http://172.24.213.57:3000/recordsTop10 ';
+    private updatedEndpointURL = 'http://172.24.145.47:3000/recordsTop100 ';
 
     private headers = new Headers({'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'});
 
@@ -25,11 +26,12 @@ export class MyDataService {
     getWinners(): Observable<MyData[]> {
         return this.http.get(this.endpointURL)
                    .map(response => {
+                     console.log("inside service")
                      console.log(response);
-                     console.log(response.json().response.docs);
-                     return response.json().response.docs as MyData[]})
-                    // console.log(response.json().docs);
-                    //  return response.json().docs as MyData[]})
+                    //  console.log(response.json().response.docs);
+                    //  return response.json().response.docs as MyData[]})
+                    console.log(response.json());
+                     return response.json() as MyData[]})
                    .catch(this.handleError);
       }
        
@@ -39,13 +41,15 @@ export class MyDataService {
                      console.log(response);
                     //  console.log(response.json().response.docs);
                     //  return response.json().response.docs as MyData[]})
-                    console.log(response.json().docs);
-                     return response.json().docs as MyData[]})
+                    // console.log(response.json().docs);
+                    //  return response.json().docs as MyData[]})
+                     console.log(response.json());
+                     return response.json() as MyData[]})
                    .catch(this.handleError);
       }
-      private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); 
-        return Promise.reject(error.message || error);
+
+      private handleError(error: any): Observable<any> {
+        return Observable.throw(error.json().error || 'Server error');
       }
 
 }

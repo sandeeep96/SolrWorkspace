@@ -5,11 +5,11 @@ import {MyDataService} from '../mydata.service';
 import {MyData} from '../mydata';
 
 @Component({
-  selector: 'app-table-component',
-  templateUrl: './table-component.component.html',
-  styleUrls: ['./table-component.component.css']
+  selector: 'app-updated-table-component',
+  templateUrl: './updated-table-component.component.html',
+  styleUrls: ['./updated-table-component.component.css']
 })
-export class TableComponentComponent implements OnInit {
+export class UpdatedTableComponentComponent implements OnInit {
 
   winners: MyData[] = [];
   cols: any[];
@@ -34,17 +34,15 @@ export class TableComponentComponent implements OnInit {
   // }
 
   ngOnInit() {
-    this.winnerService.getWinners()
+    this.winnerService.getWinners1()
     .subscribe(
       (data) => {
-        data.forEach(item=>{
-          if(parseInt(item.id)<=9&&parseInt(item.id)>=0){
-            item.id="00"+item.id;
-          }
-          else if(parseInt(item.id)<=99&&parseInt(item.id)>=10)
-          item.id="0"+item.id;
-        })
         this.winners = data;
+      }, function (error) {
+        console.log(error);
+      },
+      function () {
+        console.log("completed");
       });
     // console.log("ng init");
     // this.refreshData();

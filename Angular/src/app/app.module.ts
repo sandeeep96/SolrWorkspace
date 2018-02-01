@@ -13,11 +13,13 @@ import {TableModule} from 'primeng/table';
 // import {DataTableModule} from 'primeng/datatable';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyDataService } from './mydata.service';
+// import {TabViewModule} from 'primeng/tabview';
 
 import {GalleriaModule,MenubarModule,CheckboxModule,MessagesModule,PanelModule,CalendarModule,RadioButtonModule,
   InputSwitchModule, SelectButtonModule, DataListModule,SplitButtonModule,AccordionModule,TooltipModule,
   SliderModule,MultiSelectModule,ContextMenuModule,GrowlModule,DialogModule,ButtonModule,DropdownModule,
   InputTextModule,TabViewModule,CodeHighlighterModule} from 'primeng/primeng';
+import { UpdatedTableComponentComponent } from './updated-table-component/updated-table-component.component';
 
 const routes: Routes = [
   { path:'', 
@@ -25,10 +27,10 @@ const routes: Routes = [
    pathMatch: 'full' },
   { path:'home', 
     component:HomeComponentComponent,
-    children:[
-      { path:'', redirectTo: 'table', pathMatch: 'full' },
-      { path:'table', component: TableComponentComponent},
-  ]},
+    // children:[
+    //   { path:'', redirectTo: 'table', pathMatch: 'full' },
+    //   { path:'table', component: TableComponentComponent},]
+},
   { path:'**', component:ErrorComponentComponent},
 
  ];
@@ -40,6 +42,7 @@ const routes: Routes = [
     HomeComponentComponent,
     TableComponentComponent,
     ErrorComponentComponent,
+    UpdatedTableComponentComponent,
   ],
   imports: [
     BrowserAnimationsModule,

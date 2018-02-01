@@ -1,11 +1,16 @@
 <br>
 
 <div class="center">
-    You are Welcome <strong>{{name}}</strong> !!!
-    <br>
-    <br>
- 
 
+    <h3 class="first"></h3>
+    <p-tabView>
+        <p-tabPanel header="Recently updated Stocks" leftIcon="fa-calendar">
+          <app-updated-table-component></app-updated-table-component>    </p-tabPanel>
+        <p-tabPanel header="Existing Stocks" leftIcon="fa-print">
+          <app-table-component></app-table-component>
+        </p-tabPanel>
+        
+    </p-tabView>
     <!-- <nav>
         <ul>
           <li><a routerLink="table">Table</a></li>          
@@ -16,8 +21,8 @@
           
         </ul>
   </nav> -->
-
-<router-outlet></router-outlet>
+  
+<!-- <router-outlet></router-outlet> -->
 </div>
 
 

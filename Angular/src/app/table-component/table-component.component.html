@@ -29,8 +29,8 @@
   </table>
 </div> -->
 
-<h3 style="text-align: center">List of Stocks</h3>
-<p-table [columns]="cols" [value]="winners" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,25,30]">
+<h3 style="text-align: center">Details of Existing Stocks</h3>
+<!-- <p-table [columns]="cols" [value]="winners" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,25,30]">
     
   <ng-template pTemplate="header" let-columns>
       <tr>
@@ -46,7 +46,7 @@
           </td>
       </tr>
   </ng-template>
-</p-table>
+</p-table> -->
 
 <!-- <p-dataTable [value]="winners" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[5,10,20]">
   <p-header>List of Stocks</p-header>
@@ -66,8 +66,9 @@
   </ng-template>
 </p-dataTable>  -->
 
+<br>
 
-<p-table #dt [columns]="cols" [value]="winners" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20]">
+<p-table #dt [columns]="cols" [value]="winners" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,25,30]">
     <ng-template pTemplate="caption">
         <div style="text-align: right">        
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -76,17 +77,23 @@
     </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns">
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field" >
                 {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
         </tr>
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="col.field">
-                <input *ngSwitchCase="'stock'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
-                <div *ngSwitchCase="'BidVolume'">
-                    {{BidVolumeFilter}}
-                    <i class="fa fa-close" (click)="BidVolumeFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"></i>
-                    <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="BidVolumeFilter" [min]="0" [max]="10000" (onChange)="onBidVolumeChange($event, dt)"></p-slider>
+                <input style="width:125px" *ngSwitchCase="'stock'" placeholder="Search" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <div *ngSwitchCase="'OfferPrice'">
+                    {{yearFilter}}
+                    <i class="fa fa-close" (click)="yearFilter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"></i>
+                    <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="yearFilter" [min]="0" [max]="100" (onChange)="onYearChange($event, dt)"></p-slider>
+                </div>
+                <div *ngSwitchCase="'price'">
+                    {{year1Filter}}
+                    <i class="fa fa-close" (click)="year1Filter=null;dt.filter(null, col.field, col.filterMatchMode)" style="cursor:pointer"></i>
+                    <p-slider [style]="{'width':'100%','margin-top':'8px'}" [(ngModel)]="year1Filter" [min]="0" [max]="100" (onChange)="onYear1Change($event, dt)"></p-slider>
                 </div>
                 <p-dropdown *ngSwitchCase="'brand'" [options]="brands" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value, col.field, 'equals')"></p-dropdown>
                 <p-multiSelect *ngSwitchCase="'color'" [options]="colors" defaultLabel="All Colors" (onChange)="dt.filter($event.value, col.field, 'in')"></p-multiSelect>

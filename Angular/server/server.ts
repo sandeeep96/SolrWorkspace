@@ -25,16 +25,23 @@ app.use(bodyparser.urlencoded({ extended: false }));
 // Location to serve the static pages from
 app.use(express.static(path.join(__dirname, 'dist')));
 
+// Solr Details
+const SolrIp = '172.24.213.57';
+// const ip = '172.31.100.55';
+const SolrPort = '8085';
+const SolrCore = 'report';
+const SolrProtocol = 'http';
+
 // Solr Setup
 const client = new solrnode({
-    host: '172.31.100.94',
-    port: '8085',
-    core: 'report',
-    protocol: 'http'
+    host: SolrIp,
+    port: SolrPort,
+    core: SolrCore,
+    protocol: SolrProtocol
 });
 
 
-// Hold latest data and numRows
+// Hold data and numRows
 let numRowsLatest, numRowsPrev;
 let latestData = {}, completeData = {};
 
@@ -56,7 +63,6 @@ app.get('/records', (req, res) => {
                     numRowsPrev = parseInt(numberOfRows, 10);
                     console.log('All Data Rows: ' + numRowsPrev);
                     completeData = result.response.docs.map((item) => {
-                        item.id = parseInt(item.id, 10);
                         return item;
                     });
                     res.json(completeData);

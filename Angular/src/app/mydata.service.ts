@@ -23,7 +23,7 @@ export class MyDataService {
   getWinners(): Observable<MyData[]> {
     return this.http.get(this.endpointURL)
       .map(response => {
-        console.log("inside service")
+        console.log("inside main service")
         console.log(response);
         //  console.log(response.json().response.docs);
         //  return response.json().response.docs as MyData[]})

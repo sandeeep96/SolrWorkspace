@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 import { MyDataService } from '../mydata.service';
@@ -9,7 +9,7 @@ import { MyData } from '../mydata';
   templateUrl: './table-component.component.html',
   styleUrls: ['./table-component.component.css']
 })
-export class TableComponentComponent implements OnInit {
+export class TableComponentComponent implements OnInit, OnChanges {
 
   winners: MyData[] = [];
   winners1: MyData[] = [];
@@ -30,9 +30,11 @@ export class TableComponentComponent implements OnInit {
       (data) => {
         data.forEach(item => {
           if (parseInt(item.id) <= 9 && parseInt(item.id) >= 0) {
-            item.id = "00" + item.id;
+            item.id = "000" + item.id;
           }
           else if (parseInt(item.id) <= 99 && parseInt(item.id) >= 10)
+            item.id = "00" + item.id;
+          else if (parseInt(item.id) <= 999 && parseInt(item.id) >= 100)
             item.id = "0" + item.id;
         })
         this.winners = data;
@@ -49,6 +51,10 @@ export class TableComponentComponent implements OnInit {
       { field: 'BidVolume', header: 'BidVolume' },
       { field: 'TradedVolume', header: 'TradedVolume' }
     ];
+  }
+
+  ngOnChanges() {
+    // this.refreshData();
   }
 
   // unsubscribes the observable on moving away from componenet
@@ -70,9 +76,10 @@ export class TableComponentComponent implements OnInit {
           console.log("no new data received")
         }
         else {
+          console.log("!!!!!!! new data received");
           this.winners1 = data;
           for (let i = 0; i < this.winners1.length; i++)
-            this.winners.push(this.winners1[i])
+            this.winners.unshift(this.winners1[i])
         }
         this.subscribeToData();
       },

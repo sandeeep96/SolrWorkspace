@@ -1,74 +1,7 @@
-<!-- <div class="container">
-  <h2>Consolidated Table</h2>
-  <p>contains the sample data:</p>            
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Stock</th>
-        <th>Price</th>
-        <th>BidPrice</th>
-        <th>BidVolume</th>
-        <th>OfferPrice</th>
-        <th>OfferVolume</th>
-        <th>TradedVolume</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let winner of winners">
-        <td>{{winner.id}}</td>
-        <td>{{winner.stock}}</td>
-        <td>{{winner.price}}</td>
-        <td>{{winner.BidPrice}}</td>
-        <td>{{winner.BidVolume}}</td>
-        <td>{{winner.OfferPrice}}</td>
-        <td>{{winner.OfferVolume}}</td>
-        <td>{{winner.TradedVolume}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-
 <h3 style="text-align: center"> Stock Details </h3>
-<!-- <p-table [columns]="cols" [value]="winners" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5,10,20,25,30]">
-    
-  <ng-template pTemplate="header" let-columns>
-      <tr>
-          <th *ngFor="let col of columns">
-              {{col.header}}
-          </th>
-      </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData let-columns="columns">
-      <tr>
-          <td *ngFor="let col of columns">
-              {{rowData[col.field]}}
-          </td>
-      </tr>
-  </ng-template>
-</p-table> -->
 
-<!-- <p-dataTable [value]="winners" [rows]="10" [paginator]="true" [pageLinks]="5" [rowsPerPageOptions]="[5,10,20]">
-  <p-header>List of Stocks</p-header>
-  <p-column field="id" header="Id"></p-column>
-  <p-column field="stock" header="Stock"></p-column>
-  <p-column field="price" header="Price"></p-column>
-  <p-column field="OfferPrice" header="OfferPrice"></p-column>
-  <p-column field="OfferVolume" header="OfferVolume"></p-column>
-  <p-column field="BidPrice" header="BidPrice"></p-column>
-  <p-column field="BidVolume" header="BidVolume"></p-column>
-  <p-column field="TradedVolume" header="TradedVolume"></p-column>
-  <ng-template pTemplate="paginatorLeft">
-      <button type="button" pButton icon="fa-refresh"></button>
-  </ng-template>
-  <ng-template pTemplate="paginatorRight">
-      <button type="button" pButton icon="fa-cloud-upload"></button>
-  </ng-template>
-</p-dataTable>  -->
-
-
-
-<p-table #dt [columns]="cols" [value]="winners" [paginator]="true" [rows]="15" [rowsPerPageOptions]="[5,10,15,20,25,30]" sortMode="multiple">
+<p-table #dt [columns]="cols" [value]="winners" [paginator]="true" [rows]="15" [rowsPerPageOptions]="[5,10,15,20,25,30]"
+    sortMode="multiple">
     <ng-template pTemplate="caption">
         <div style="text-align: right">
             <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -78,7 +11,7 @@
     </ng-template>
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field" >
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
                 {{col.header}}
                 <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>

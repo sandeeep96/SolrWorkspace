@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
-import {MyDataService} from '../mydata.service';
-import {MyData} from '../mydata';
+import { MyDataService } from '../mydata.service';
+import { MyData } from '../mydata';
 
 @Component({
   selector: 'app-table-component',
@@ -16,51 +16,42 @@ export class TableComponentComponent implements OnInit {
   cols: any[];
   private timerSubscription: AnonymousSubscription;
   private postsSubscription: AnonymousSubscription;
-
   yearFilter: number;
-
   yearTimeout: any;
   year1Filter: number;
-
   year1Timeout: any;
 
   constructor(private winnerService: MyDataService) { }
 
-
-  // ngOnInit() {
-  //   this.winnerService.getWinners()
-  //   .subscribe(
-  //     (data) => {
-  //       this.winners = data});
-  // }
-
+  // loads columns and loads data in table and also refreshes data
   ngOnInit() {
     this.winnerService.getWinners()
-    .subscribe(
+      .subscribe(
       (data) => {
-        data.forEach(item=>{
-          if(parseInt(item.id)<=9&&parseInt(item.id)>=0){
-            item.id="00"+item.id;
+        data.forEach(item => {
+          if (parseInt(item.id) <= 9 && parseInt(item.id) >= 0) {
+            item.id = "00" + item.id;
           }
-          else if(parseInt(item.id)<=99&&parseInt(item.id)>=10)
-          item.id="0"+item.id;
+          else if (parseInt(item.id) <= 99 && parseInt(item.id) >= 10)
+            item.id = "0" + item.id;
         })
         this.winners = data;
       });
-    // console.log("ng init");
+    console.log("ng init");
     this.refreshData();
-        this.cols = [
-          { field: 'id', header: 'Id' },
-          { field: 'stock', header: 'Stock' },
-          { field: 'price', header: 'Price' },
-          { field: 'OfferPrice', header: 'OfferPrice' },
-          { field: 'OfferVolume', header: 'OfferVolume' },
-          { field: 'BidPrice', header: 'BidPrice' },
-          { field: 'BidVolume', header: 'BidVolume' },
-          { field: 'TradedVolume', header: 'TradedVolume' }
-      ];
+    this.cols = [
+      { field: 'id', header: 'Id' },
+      { field: 'stock', header: 'Stock' },
+      { field: 'price', header: 'Price' },
+      { field: 'OfferPrice', header: 'OfferPrice' },
+      { field: 'OfferVolume', header: 'OfferVolume' },
+      { field: 'BidPrice', header: 'BidPrice' },
+      { field: 'BidVolume', header: 'BidVolume' },
+      { field: 'TradedVolume', header: 'TradedVolume' }
+    ];
   }
 
+  // unsubscribes the observable on moving away from componenet
   public ngOnDestroy(): void {
     console.log("ng destroy");
     if (this.postsSubscription) {
@@ -71,21 +62,17 @@ export class TableComponentComponent implements OnInit {
     }
   }
 
-    // ngOnInit() {
-  //   console.log("ng init");
-  //   this.refreshData();
-  // }
-
+  // checks for new data & adds to main data if any or prints no new data received when no new data is received
   private refreshData(): void {
     this.postsSubscription = this.winnerService.getWinners1().subscribe(
       (data) => {
-        if(data==null){
+        if (data == null) {
           console.log("no new data received")
         }
-        else{
+        else {
           this.winners1 = data;
-          for(let i=0;i<this.winners1.length;i++)
-          this.winners.push(this.winners1[i])
+          for (let i = 0; i < this.winners1.length; i++)
+            this.winners.push(this.winners1[i])
         }
         this.subscribeToData();
       },
@@ -98,29 +85,27 @@ export class TableComponentComponent implements OnInit {
     );
   }
 
+  // timer for every 1 sec
   private subscribeToData(): void {
-
     this.timerSubscription = Observable.timer(1000)
       .subscribe(() => this.refreshData());
   }
 
-
+  // Methods for 2 sliders
   onYearChange(event, dt) {
     if (this.yearTimeout) {
-        clearTimeout(this.yearTimeout);
+      clearTimeout(this.yearTimeout);
     }
-
     this.yearTimeout = setTimeout(() => {
-        dt.filter(event.value, 'OfferPrice', 'gt');
+      dt.filter(event.value, 'OfferPrice', 'gt');
     }, 250);
-}
-onYear1Change(event, dt) {
-  if (this.year1Timeout) {
-      clearTimeout(this.year1Timeout);
   }
-
-  this.year1Timeout = setTimeout(() => {
+  onYear1Change(event, dt) {
+    if (this.year1Timeout) {
+      clearTimeout(this.year1Timeout);
+    }
+    this.year1Timeout = setTimeout(() => {
       dt.filter(event.value, 'price', 'gt');
-  }, 250);
-}
+    }, 250);
+  }
 }

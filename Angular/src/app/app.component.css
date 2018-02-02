@@ -11,3 +11,9 @@ footer {
 	font-size: 15px;
 	border-top: 2px solid #eee;
 }
+
+#header {
+	text-align: center;
+	padding: 20px 0;
+	font-size: 30px;
+}

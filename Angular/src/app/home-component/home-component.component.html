@@ -1,28 +1,28 @@
-<br>
-
 <div class="center">
+  You are authenticated....Welcome
+  <strong>{{name}}</strong> !!!
+  <br>
+  <nav>
+    <ul>
+      <li>
+        <a routerLink="table">Table</a>
+      </li>
+      <li>
+        <a routerLink="dashboard">Board</a>
+      </li>
+      <li>
+        <a routerLink="create">Create</a>
+      </li>
+      <li>
+        <a routerLink="details">Details</a>
+      </li>
+      <li class="navbar-form  navbar-right">
+        <a style=" cursor: pointer" (click)="LogOut()">LogOut</a>
+      </li>
 
-    <h3 class="first"></h3>
-    <p-tabView>
-        <p-tabPanel header="Recently updated Stocks" leftIcon="fa-calendar">
-          <app-updated-table-component></app-updated-table-component>    </p-tabPanel>
-        <p-tabPanel header="Existing Stocks" leftIcon="fa-print">
-          <app-table-component></app-table-component>
-        </p-tabPanel>
-        
-    </p-tabView>
-    <!-- <nav>
-        <ul>
-          <li><a routerLink="table">Table</a></li>          
-  <li><a routerLink="dashboard">Board</a></li>
-  <li><a routerLink="create">Create</a></li>
-          <li><a routerLink="details">Details</a></li>
+    </ul>
+  </nav>
+  <br>
 
-          
-        </ul>
-  </nav> -->
-  
-<!-- <router-outlet></router-outlet> -->
+  <router-outlet></router-outlet>
 </div>
-
-

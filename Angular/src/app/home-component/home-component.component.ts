@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable }        from 'rxjs/Observable';
-import { Subject }           from 'rxjs/Subject';
-import { Router }            from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { UserService } from '../user.service';
+
+import { Subject } from 'rxjs/Subject';
+import { Router } from '@angular/router';
 
 
 // Observable class extensions
@@ -19,15 +21,19 @@ import 'rxjs/add/operator/distinctUntilChanged';
 })
 export class HomeComponentComponent implements OnInit {
 
-  private searchTerms = new Subject<string>();
+  name = '';
+  constructor(private user: UserService, private router: Router
+  ) { }
 
-    constructor(
-    ) { }
-
-    ngOnInit() {
-
+  // setting the name of logged in user
+  ngOnInit() {
+    this.name = this.user.getUserLoggedIn();
   }
 
-
+ // logging out
+  LogOut(): void {
+    this.user.logout();
+    this.router.navigate(['/']);
+  }
 
 }
